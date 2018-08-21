@@ -78,9 +78,13 @@ var nameSelection = document.querySelector('#name-selection');
 
 main.innerHTML = renderCoffees(coffees);
 
+//Updates coffees when submit is clicked.
 submitButton.addEventListener('click', updateCoffees);
+
+//Updates as search bar is manipulated -- work in progress.
 //nameSelection.addEventListener('keydown',updateCoffees);
 
+//Updates Coffees when dropdown is changed.
 roastSelection.addEventListener('change', updateCoffees);
 
 
