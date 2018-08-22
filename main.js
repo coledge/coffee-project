@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 function renderCoffee(coffee) {
     var html = '<div><h3>' + coffee.name + '</h3><p>' + coffee.roast + '</p></div>';
@@ -72,7 +72,7 @@ var coffees = [
 
 var main = document.querySelector('#coffees');
 
-var submitButton = document.querySelector('#submit');
+var submitButton = document.querySelector('#submit-search');
 
 var roastSelection = document.querySelector('#roast-selection');
 
