@@ -35,6 +35,8 @@ function updateCoffees(e) {
 
         if (coffee.roast === selectedRoast) {
             filteredCoffees.push(coffee);
+        } else if (selectedRoast == 'all'){
+            filteredCoffees.push(coffee);
         }
 
         if (coffee.name.substr(0, selectedName.length) === selectedName) {
@@ -82,7 +84,7 @@ main.innerHTML = renderCoffees(coffees);
 submitButton.addEventListener('click', updateCoffees);
 
 //Updates as search bar is manipulated -- work in progress.
-//nameSelection.addEventListener('keydown',updateCoffees);
+nameSelection.addEventListener('oninput',updateCoffees);
 
 //Updates Coffees when dropdown is changed.
 roastSelection.addEventListener('change', updateCoffees);
