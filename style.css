@@ -1,1 +1,19 @@
+body {
+    background-color: #af977c;
+    font-family: 'Marvel', sans-serif;
+    color: #303030;
+}
 
+
+
+h1, .lobster {
+    font-family: 'Lobster Two', cursive;
+}
+
+strong {
+    font-weight: 900;
+}
+
+h1 {
+    font-size: 400%;
+}

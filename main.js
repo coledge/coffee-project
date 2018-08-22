@@ -1,22 +1,22 @@
 "use strict";
 
 function renderCoffee(coffee) {
-    var html = '<div><h3>' + coffee.name + '</h3><p>' + coffee.roast + '</p></div>';
+    var html = '<div class="col-6"><h3><strong>' + coffee.name + '</strong></h3><p>' + coffee.roast + '</p><hr></div>';
 
     return html;
 }
 
 function renderCoffees(coffees) {
     var html = '';
-
-    coffees.sort(function(a, b) {
+    html += '<div class="row">';
+    coffees.sort(function (a, b) {
         return b.id - a.id;
     });
 
-    for(var i = coffees.length - 1; i >= 0; i--) {
+    for (var i = coffees.length - 1; i >= 0; i--) {
         html += renderCoffee(coffees[i]);
     }
-
+    html += '</div>';
     return html;
 }
 
@@ -30,23 +30,26 @@ function updateCoffees(e) {
     var namedCoffees = [];
 
 
-    coffees.forEach(function(coffee) {
+    coffees.forEach(function (coffee) {
 
         //if selectedRoast == alll {push all}
 
         if (coffee.roast === selectedRoast) {
             filteredCoffees.push(coffee);
-        } else if (selectedRoast == 'all'){
+        } else if (selectedRoast == 'all') {
             filteredCoffees.push(coffee);
         }
 
     });
 
-    filteredCoffees.forEach(function(coffee) {
+    filteredCoffees.forEach(function (coffee) {
         if (coffee.name.toLowerCase().search(selectedName.toLowerCase()) != -1) {
             namedCoffees.push(coffee);
-    }});
-
+        }
+    });
+    if (namedCoffees.length === 0) {
+        namedCoffees.push({name: "Sorry,", roast: "Your search didn't find anything."});
+    }
 
     // main.innerHTML = renderCoffees(filteredCoffees);
     main.innerHTML = renderCoffees(namedCoffees);
@@ -57,14 +60,29 @@ function addCoffee(e) {
     e.preventDefault();
     var newName = newCoffeeName.value;
     var addRoast = newRoast.value;
-    console.log(newName);
-    console.log(addRoast);
-    var newCoffee = {id: coffees.length+1, name: newName, roast: addRoast};
-    console.log(newCoffee);
+    // console.log(newName);
+    // console.log(addRoast);
+    var newCoffee = {id: coffees.length + 1, name: newName, roast: addRoast};
+    // console.log(newCoffee);
+
+    if(confirm("Are you sure you'd like to add the " + addRoast + " roast '" + newName + "'? ")) {
+        coffees.push(newCoffee);
+        main.innerHTML = renderCoffees(coffees);
+
+        localStorage.setItem(newName, addRoast);
+        alert("Your suggestion '" + newName + "' has been added! Thanks!");
+    } else {
+        alert("No hard feeling - your coffee hasn't been added.");
+
+    }
+}
+
+function addCoffeefromStorage(name, roast) {
+
+    var newCoffee = {id: coffees.length + 1, name: name, roast: roast};
 
     coffees.push(newCoffee);
     main.innerHTML = renderCoffees(coffees);
-
 }
 
 // from http://www.ncausa.org/About-Coffee/Coffee-Roasts-Guide
@@ -102,11 +120,15 @@ var addButton = document.querySelector('#submit-add');
 
 main.innerHTML = renderCoffees(coffees);
 
+for (var i = 0; i < localStorage.length; i++) {
+    addCoffeefromStorage(localStorage.key(i), localStorage.getItem(localStorage.key(i)));
+}
+
 //Updates coffees when submit is clicked.
 submitButton.addEventListener('click', updateCoffees);
 
 //Updates as search bar is manipulated -- work in progress.
-nameSelection.addEventListener('input',updateCoffees);
+nameSelection.addEventListener('input', updateCoffees);
 
 //Updates Coffees when dropdown is changed.
 roastSelection.addEventListener('change', updateCoffees);
