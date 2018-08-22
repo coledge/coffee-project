@@ -39,15 +39,17 @@ function updateCoffees(e) {
             filteredCoffees.push(coffee);
         }
 
-        if (coffee.name.substr(0, selectedName.length) === selectedName) {
-            namedCoffees.push(coffee);
-        }
-
-
     });
 
-    main.innerHTML = renderCoffees(filteredCoffees);
-    //main.innerHTML = renderCoffees(namedCoffees);
+    filteredCoffees.forEach(function(coffee) {
+        if (coffee.name.toLowerCase().search(selectedName.toLowerCase()) != -1) {
+            namedCoffees.push(coffee);
+    }});
+
+
+    // main.innerHTML = renderCoffees(filteredCoffees);
+    main.innerHTML = renderCoffees(namedCoffees);
+
 }
 
 // from http://www.ncausa.org/About-Coffee/Coffee-Roasts-Guide
@@ -84,7 +86,7 @@ main.innerHTML = renderCoffees(coffees);
 submitButton.addEventListener('click', updateCoffees);
 
 //Updates as search bar is manipulated -- work in progress.
-nameSelection.addEventListener('oninput',updateCoffees);
+nameSelection.addEventListener('input',updateCoffees);
 
 //Updates Coffees when dropdown is changed.
 roastSelection.addEventListener('change', updateCoffees);
